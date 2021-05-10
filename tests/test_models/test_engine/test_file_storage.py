@@ -24,6 +24,7 @@ classes = {"Amenity": Amenity, "BaseModel": BaseModel, "City": City,
 
 
 class TestFileStorageDocs(unittest.TestCase):
+
     """Tests to check the documentation and style of FileStorage class"""
     @classmethod
     def setUpClass(cls):
@@ -69,6 +70,7 @@ test_file_storage.py'])
 
 
 class TestFileStorage(unittest.TestCase):
+
     """Test the FileStorage class"""
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
     def test_all_returns_dict(self):
@@ -113,3 +115,20 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_get(self):
+        """Test get method"""
+        storage = FileStorage()
+        sample = State("Oklahoma")
+        sample.save()
+        test = storage.get(State, sample.id)
+        self.assertEqual(type(test), State)
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count(self):
+        """Test count method"""
+        storage = FileStorage()
+        sample = State("Oklahoma")
+        count = storage.count(State)
+        self.assertEqual(count, storage.count(State))
