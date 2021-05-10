@@ -129,6 +129,12 @@ class TestFileStorage(unittest.TestCase):
     def test_count(self):
         """Test count method"""
         storage = FileStorage()
-        sample = State("Oklahoma")
-        count = storage.count(State)
-        self.assertEqual(count, storage.count(State))
+        dic = {"name": "Oklahoma"}
+        state = State(**dic)
+        storage.new(state)
+        dic = {"name": "Tulsa"}
+        city = City(**dic)
+        storage.new(city)
+        storage.save()
+        num = storage.count()
+        self.assertEqual(len(storage.all()), num)
